@@ -5,7 +5,8 @@ Composite actions to deploy a new version of an ECS service
 
 This Composite actions will:
 - Render a new task definition revision
-- Update the ECS service with the new task definition
+- Optionally replace `__AWS_ACCOUNT__` and `__ENV__` in the task definition to match AWS account & environment target
+- Update the ECS service with the new task definition revision
 
 ## How to use
 
@@ -18,13 +19,15 @@ jobs:
         - name: Deploy ECS Service
             uses: Gutenberg-Technology/deploy-ecs-service-actions@v1.0.0
             with:
-                cluster: my-cluster
-                service: my-service
-                task-def-json: /path/to/my-task-definition.json
-                container-name: my-container
-                tagged-image: my-image:latest
-                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                env: "rct"
+                cluster: "my-cluster"
+                service: "my-service"
+                task-def-json: task_def_tpl.json
+                container-name: "my-container"
+                tagged-image: "my-image:tag-123456"
+                aws-access-key-id: 123456789
+                aws-secret-access-key: 123456789
+                aws-region: "us-east-1"
 ```
 
 ## Customize AWS account & env
