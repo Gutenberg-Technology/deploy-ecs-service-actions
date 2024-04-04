@@ -59,8 +59,8 @@ runs:
       if: ${{ inputs.customize-env-td == 'true' }}
       id: prepare-td
       run: |
-        sed -i 's/__ENV__/${{ inputs.env }}/' ${{ inputs.task-def-json }}
-        sed -i 's/__AWS_ACCOUNT__/${{ steps.aws-credentials.outputs.aws-account-id }}/' ${{ inputs.task-def-json }}
+        sed -i 's/__ENV__/${{ inputs.env }}/g' ${{ inputs.task-def-json }}
+        sed -i 's/__AWS_ACCOUNT__/${{ steps.aws-credentials.outputs.aws-account-id }}/g' ${{ inputs.task-def-json }}
       shell: bash
 
     - name: Fill in the new image ID in the Amazon ECS task definition
