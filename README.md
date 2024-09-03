@@ -32,7 +32,7 @@ jobs:
 
 ## Customize AWS account & env
 
-In task definition, you can optionally replace `__AWS_ACCOUNT__` and `__ENV__` with a value from the `env` input and according to the AWS account.
+In task definition, you can optionally replace `__AWS_ACCOUNT__`, `__AWS_REGION__`and `__ENV__` with a value from the `env` input and according to the AWS account.
 
 Example:
 ```json
@@ -41,12 +41,14 @@ Example:
         {
             "name": "my-container",
             "image": "my-image:__ENV__"
-        }
+        },
+        # [...]
+        "arn": "arn:aws:ssm:__AWS_REGION__:__AWS_ACCOUNT__:parameter/abn-__ENV__/keycloak-mef-admin-user",
     ]
 }
 ```
 
-With `inputs.env = 'prod'`, it will be rendered as:
+With `inputs.env = 'prod'`, `inputs.aws-region = 'eu-west-1'` and an AWS account called `123456798` it will be rendered as:
 
 ```json
 {
@@ -54,7 +56,9 @@ With `inputs.env = 'prod'`, it will be rendered as:
         {
             "name": "my-container",
             "image": "my-image:prod"
-        }
+        },
+        # [...]
+        "arn": "arn:aws:ssm:eu-west-1:123456789:parameter/abn-__ENV__/keycloak-mef-admin-user"
     ]
 }
 ```

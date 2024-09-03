@@ -1,6 +1,6 @@
-name: 'Deploy a new ECS task version for an ECS service'
-description: 'Build, test & push Docker image composite action'
-author: 'Gutenberg Technology'
+name: "Deploy a new ECS task version for an ECS service"
+description: "Build, test & push Docker image composite action"
+author: "Gutenberg Technology"
 
 inputs:
   env:
@@ -9,7 +9,7 @@ inputs:
   customize-env-td:
     description: "Customize '__ENV__' in task def"
     required: false
-    default: "true"  
+    default: "true"
   tagged-image:
     description: "The image name and its tag  you want to deploy"
     required: true
@@ -41,7 +41,7 @@ inputs:
     default: "us-east-1"
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Configure AWS credentials
       id: aws-credentials
@@ -60,6 +60,7 @@ runs:
       id: prepare-td
       run: |
         sed -i 's/__ENV__/${{ inputs.env }}/g' ${{ inputs.task-def-json }}
+        sed -i 's/__AWS_REGION__/${{ inputs.aws-region }}/g' ${{ inputs.task-def-json }}
         sed -i 's/__AWS_ACCOUNT__/${{ steps.aws-credentials.outputs.aws-account-id }}/g' ${{ inputs.task-def-json }}
       shell: bash
 
@@ -78,4 +79,3 @@ runs:
         service: ${{ inputs.service }}
         cluster: ${{ inputs.cluster }}
         wait-for-service-stability: ${{ inputs.wait-for-service-stability }}
-
