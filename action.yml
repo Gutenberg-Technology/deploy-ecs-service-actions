@@ -37,8 +37,7 @@ inputs:
     required: true
   aws-region:
     description: "AWS Region to use"
-    required: false
-    default: "us-east-1"
+    required: true
 
 runs:
   using: "composite"
